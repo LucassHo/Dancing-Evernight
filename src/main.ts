@@ -15,10 +15,11 @@ app.whenReady().then(() => {
   width: windowWidth,
   height: windowHeight, 
   x: -10,
-  y: screenHeight - windowHeight+55,
+  y: screenHeight - windowHeight+10,
   frame: false,
   transparent: true,
   alwaysOnTop: true,
+  // icon: path.join(__dirname, '../assets/Evernight.png'),
   resizable: false,
   hasShadow: false, 
   webPreferences: {

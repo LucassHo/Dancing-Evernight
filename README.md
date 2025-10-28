@@ -7,6 +7,7 @@ Feeling Frustrated at Work? Stare at her for a couple seconds and feel rejuvenat
 
 Source: ([长 月 摇～](https://www.bilibili.com/video/BV1H8h9znEeP)) by 千层的小星
 
+To close the app, use Ctrl and -
 ## Setup
 
 1. **Install dependencies**
