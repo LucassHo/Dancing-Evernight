@@ -1,0 +1,25 @@
+{
+  "name": "evernight",
+  "version": "1.0.0",
+  "main": "dist/src/main.js",
+  "scripts": {
+    "build": "tsc && cpx \"src/renderer/**/*.html\" dist/renderer && cpx \"src/renderer/**/*.gif\" dist/renderer",
+    "start": "electron ./dist/src/main.js",
+    "package": "npm run build && electron-packager ./ evernight --platform=win32 --arch=x64 --out=out --overwrite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "description": "",
+  "devDependencies": {
+    "@electron/fuses": "^1.8.0",
+    "@types/electron": "^1.4.38",
+    "@types/node": "^24.9.1",
+    "cpx": "^1.5.0",
+    "electron": "^39.0.0",
+    "electron-packager": "^17.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
