@@ -9,6 +9,12 @@ let win: BrowserWindow | null = null;
 
 app.whenReady().then(() => {
   const { height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
+  const defaultConfig = {
+  width: 200,
+  height: 200,
+  x: -10,
+  y: screen.getPrimaryDisplay().workAreaSize.height - 200 + 10
+  };
   const windowWidth = 200;
   const windowHeight = 200;
   win = new BrowserWindow({
@@ -19,8 +25,8 @@ app.whenReady().then(() => {
   frame: false,
   transparent: true,
   alwaysOnTop: true,
-  // icon: path.join(__dirname, '../assets/Evernight.png'),
-  resizable: false,
+  icon: path.join(__dirname, './assets/Evernight.png'),
+  resizable: true,
   hasShadow: false, 
   webPreferences: {
     nodeIntegration: true,
@@ -28,10 +34,19 @@ app.whenReady().then(() => {
   }
 });
 
-  win.loadFile(path.join(__dirname, '../renderer/index.html'));
+  win.loadFile(path.join(__dirname, './renderer/index.html'));
 
-  win.setIgnoreMouseEvents(true, {forward: true});
+  win.setIgnoreMouseEvents(false);
   globalShortcut.register('Control+-', () => {
     app.quit();
+  });
+
+  // ipcMain.on("resize-window", (event, { width, height }) => {
+  // if (win) win.setSize(width, height);
+  // });
+
+  globalShortcut.register("Control+Shift+\\", () => {
+    if (!win) return;
+    win.setPosition(defaultConfig.x, defaultConfig.y);
   });
 });

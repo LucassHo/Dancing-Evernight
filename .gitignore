@@ -5,3 +5,5 @@ out/
 release-builds/
 
 dist/
+
+src/renderer/renderer.ts
