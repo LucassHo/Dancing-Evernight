@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+let initMouse = true;
 
 let win: BrowserWindow | null = null;
 // app.disableHardwareAcceleration();
@@ -26,7 +27,7 @@ app.whenReady().then(() => {
   transparent: true,
   alwaysOnTop: true,
   icon: path.join(__dirname, './assets/Evernight.png'),
-  resizable: true,
+  resizable: false,
   hasShadow: false, 
   webPreferences: {
     nodeIntegration: true,
@@ -36,10 +37,16 @@ app.whenReady().then(() => {
 
   win.loadFile(path.join(__dirname, './renderer/index.html'));
 
-  win.setIgnoreMouseEvents(false);
+  win.setIgnoreMouseEvents(initMouse);
   globalShortcut.register('Control+-', () => {
     app.quit();
   });
+  globalShortcut.register('Control+=', () => {
+    if (!win) return;
+    initMouse =!initMouse;
+    win.setIgnoreMouseEvents(initMouse);
+  });
+
 
   // ipcMain.on("resize-window", (event, { width, height }) => {
   // if (win) win.setSize(width, height);
