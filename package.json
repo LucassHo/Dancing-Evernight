@@ -4,9 +4,11 @@
   "main": "dist/src/main.js",
   "scripts": {
     "build": "tsc && npm run copy",
-    "copy": "cpx \"src/assets/**/*\" dist/src/assets && cpx \"src/renderer/**/*\" dist/src/renderer",
+    "copy": "npm run asset && npm run renderer",
     "start": "electron ./dist/src/main.js",
-    "package": "npm run build && electron-packager ./ evernight --platform=win32 --arch=x64 --out=out --overwrite --icon=./src/assets/Evernight.ico"
+    "package": "npm run build && electron-packager ./ evernight --platform=win32 --arch=x64 --out=out --overwrite --icon=./src/assets/Evernight.ico",
+    "asset": "cpx \"src/assets/**/*\" dist/src/assets",
+    "renderer": "cpx \"src/renderer/**/*\" dist/src/renderer"
   },
   "keywords": [],
   "author": "",

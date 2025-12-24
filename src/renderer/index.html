@@ -22,7 +22,7 @@
     height: 100%;
     display: block;
   }
-  #drag-region {
+  #gif {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -31,6 +31,17 @@
 </style>
 </head>
 <body>
-<img id="drag-region"src="Evernight.gif" />
+<img id="gif"src="" />
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const gifName = urlParams.get('gif');
+
+  if (gifName) {
+    document.getElementById('gif').src = `../assets/gifs/${gifName}`;
+  } else {
+    console.error('No GIF name found in URL parameters')
+  }
+</script>
 </body>
 </html>
+<!-- ../assets/gifs/Evernight.gif -->
