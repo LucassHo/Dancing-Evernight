@@ -2,7 +2,7 @@
 
 Feeling Frustrated at Work? Stare at her for a couple seconds and feel rejuvenated.
 
-![til](./src/renderer/Evernight.gif)
+![til](./src/assets/gifs/Evernight.gif)
 
 
 Source: ([长 月 摇～](https://www.bilibili.com/video/BV1H8h9znEeP)) by 千层的小星
