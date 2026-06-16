@@ -10,6 +10,7 @@ Source: ([长 月 摇～](https://www.bilibili.com/video/BV1H8h9znEeP)) by 千�
 - To close the app, use Ctrl and -
 - Drag the gif to change its location
 - Return to original position using Ctrl + Shift + \
+- :star: Configurations on System Tray, click to open Configurations and upload your own GIFs!
 ## Setup
 
 1. **Install dependencies**
