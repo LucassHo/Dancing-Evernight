@@ -1,16 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Configuration</title>
-    <link rel="stylesheet" href="config.css">
+  <meta charset="UTF-8" />
+  <title>Configuration</title>
+  <link rel="stylesheet" href="config.css">
 </head>
 <body>
-    <h1>Settings</h1>
+  <h1>Adjust Settings</h1>
 
-    <button id="applyChanges">Apply</button>
+  <section>
+    <h2>Position</h2>
+    <div class="field">
+      <span>X</span>
+      <input type="range" id="posXSlider" min="-2000" max="4000" />
+      <input type="number" id="posX" min="-2000" max="4000" />
+    </div>
+    <div class="field">
+      <span>Y</span>
+      <input type="range" id="posYSlider" min="-2000" max="4000" />
+      <input type="number" id="posY" min="-2000" max="4000" />
+    </div>
+  </section>
 
-    <!-- Load compiled JavaScript -->
-    <script src="config.js"></script>
+  <section>
+    <h2>Size</h2>
+    <div class="field">
+      <span>Width</span>
+      <input type="range" id="widthSlider" min="50" max="800" />
+      <input type="number" id="width" min="50" max="800" />
+    </div>
+    <div class="field">
+      <span>Height</span>
+      <input type="range" id="heightSlider" min="50" max="800" />
+      <input type="number" id="height" min="50" max="800" />
+    </div>
+  </section>
+
+  <section>
+    <h2>GIF</h2>
+    <select id="gifSelect"></select>
+    <button id="uploadGif">+ Upload New GIF</button>
+  </section>
+
+  <div class="actions">
+    <button id="applyChanges" class="primary">Apply</button>
+    <button id="resetDefaults" class="secondary">Reset</button>
+  </div>
+
+  <p id="status"></p>
+
+  <script src="config.js"></script>
 </body>
 </html>
