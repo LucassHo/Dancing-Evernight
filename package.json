@@ -6,7 +6,9 @@
     "build": "tsc && npm run copy",
     "copy": "node copy-assets.js",
     "start": "electron ./dist/main.js",
-    "package": "npm run build && electron-packager ./ evernight --platform=win32 --arch=x64 --out=out --overwrite --icon=./src/assets/Evernight.ico"
+    "package": "npm run build && electron-packager ./ evernight --platform=win32 --arch=x64 --out=out --overwrite --icon=./src/assets/Evernight.ico",
+    "package:win": "npm run build && electron-packager ./ evernight --platform=win32 --arch=x64 --out=out --overwrite --icon=./src/assets/Evernight.ico",
+    "package:mac": "npm run build && electron-packager ./ evernight --platform=darwin --arch=universal --out=out --overwrite --icon=./src/assets/Evernight.icns"
   },
   "keywords": [],
   "author": "",
