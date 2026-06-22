@@ -138,6 +138,7 @@ function updateTray(): void {
 }
 
 function createConfigWindow(): void {
+  win?.setIgnoreMouseEvents(false);
   if (configWin && !configWin.isDestroyed()) {
     configWin.focus();
     return;
@@ -158,7 +159,7 @@ function createConfigWindow(): void {
 
   configWin.setMenuBarVisibility(false);
   configWin.loadFile(path.join(__dirname, './renderer/config.html'));
-  configWin.on('closed', () => { configWin = null; });
+  configWin.on('closed', () => { configWin = null; win?.setIgnoreMouseEvents(true); });
 }
 
 // IPC handlers
@@ -252,6 +253,9 @@ app.whenReady().then(() => {
     config.y = b.y;
     config.width = b.width;
     config.height = b.height;
+    if (configWin && !configWin.isDestroyed()) {
+      configWin.webContents.send('bounds-updated', b);
+    }
   };
 
   win.on('move', syncBounds);
@@ -289,8 +293,9 @@ app.whenReady().then(() => {
   // Ctrl/Cmd + = : Toggle mouse passthrough (enables dragging)
   globalShortcut.register('CommandOrControl+=', () => {
     if (!win) return;
-    initMouse = !initMouse;
-    win.setIgnoreMouseEvents(initMouse);
+    // initMouse = !initMouse;
+    // win.setIgnoreMouseEvents(initMouse);
+    createConfigWindow();
   });
 
   // Ctrl/Cmd + Shift + \ : Reset to default position and size

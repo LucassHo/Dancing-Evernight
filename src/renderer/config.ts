@@ -4,6 +4,7 @@
 // window is created with nodeIntegration: true / contextIsolation: false.
 interface IpcLike {
   invoke(channel: string, ...args: unknown[]): Promise<unknown>;
+  on(channel: string, listener: (event: unknown, ...args: unknown[]) => void): void;
 }
 const ipcRenderer: IpcLike = (window as Window & {
   require(module: string): { ipcRenderer: IpcLike };
@@ -140,6 +141,18 @@ window.addEventListener('DOMContentLoaded', () => {
           showStatus(`Upload failed: ${result.error ?? 'unknown error'}`, true);
         }
       })();
+    });
+
+    ipcRenderer.on('bounds-updated', (_event: unknown, b: unknown) => {
+        const bounds = b as { x: number; y: number; width: number; height: number };
+        setNum('posX', bounds.x);
+        setNum('posY', bounds.y);
+        setNum('width', bounds.width);
+        setNum('height', bounds.height);
+        setSlider('posXSlider', bounds.x, -200, config.screenW);
+        setSlider('posYSlider', bounds.y, -200, config.screenH);
+        setSlider('widthSlider', bounds.width, 50, 800);
+        setSlider('heightSlider', bounds.height, 50, 800);
     });
   })();
 });
