@@ -1,11 +1,13 @@
-import { app, BrowserWindow, globalShortcut, screen, ipcMain, Tray, Menu, dialog } from 'electron';
-import type { MenuItemConstructorOptions } from 'electron';
+import { app, BrowserWindow, globalShortcut, screen, ipcMain, Tray, Menu, dialog, nativeImage } from 'electron';
+import type { MenuItemConstructorOptions, NativeImage } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const isMac = process.platform === 'darwin';
 
 let initMouse = true;
 let win: BrowserWindow | null = null;
@@ -87,6 +89,17 @@ function getGifList(): string[] {
   } catch {
     return [];
   }
+}
+
+function getTrayImage(): string | NativeImage {
+  const icoPath = path.join(__dirname, './assets/Evernight.ico');
+  const pngPath = path.join(__dirname, './assets/Evernight.png');
+  // macOS menu-bar icons must be small PNGs (.ico is not supported); resize so it
+  // fits the bar rather than rendering at full logo size.
+  if (isMac) {
+    return nativeImage.createFromPath(pngPath).resize({ height: 18 });
+  }
+  return fs.existsSync(icoPath) ? icoPath : pngPath;
 }
 
 function updateTray(): void {
@@ -251,10 +264,16 @@ app.whenReady().then(() => {
   win.loadFile(path.join(__dirname, './renderer/index.html'), { query: { gif: config.gif } });
   win.setIgnoreMouseEvents(initMouse);
 
-  // System tray
-  const icoPath = path.join(__dirname, './assets/Evernight.ico');
-  const pngPath = path.join(__dirname, './assets/Evernight.png');
-  tray = new Tray(fs.existsSync(icoPath) ? icoPath : pngPath);
+  // macOS: float above fullscreen apps and show on every Space; run as a
+  // menu-bar accessory (no Dock icon) to match the tray-only feel on Windows.
+  if (isMac) {
+    win.setAlwaysOnTop(true, 'screen-saver');
+    win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+    app.dock?.hide();
+  }
+
+  // System tray / macOS menu bar
+  tray = new Tray(getTrayImage());
   tray.setToolTip('Dancing Evernight');
   tray.on('click', () => { createConfigWindow(); });
   updateTray();
@@ -264,18 +283,18 @@ app.whenReady().then(() => {
 
   app.on('before-quit', () => { saveConfig(); });
 
-  // Ctrl+- : Quit
-  globalShortcut.register('Control+-', () => { app.quit(); });
+  // Ctrl/Cmd + - : Quit
+  globalShortcut.register('CommandOrControl+-', () => { app.quit(); });
 
-  // Ctrl+= : Toggle mouse passthrough (enables dragging)
-  globalShortcut.register('Control+=', () => {
+  // Ctrl/Cmd + = : Toggle mouse passthrough (enables dragging)
+  globalShortcut.register('CommandOrControl+=', () => {
     if (!win) return;
     initMouse = !initMouse;
     win.setIgnoreMouseEvents(initMouse);
   });
 
-  // Ctrl+Shift+\ : Reset to default position and size
-  globalShortcut.register('Control+Shift+\\', () => {
+  // Ctrl/Cmd + Shift + \ : Reset to default position and size
+  globalShortcut.register('CommandOrControl+Shift+\\', () => {
     if (!win) return;
     win.setPosition(-10, screenH - 200 + 10);
     win.setSize(200, 200);
